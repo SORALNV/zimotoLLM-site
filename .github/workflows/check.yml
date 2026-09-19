@@ -5,6 +5,11 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        prefix: ['/', '/zimotoLLM-site/']
+    env:
+      SITE_PATH_PREFIX: ${{ matrix.prefix }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

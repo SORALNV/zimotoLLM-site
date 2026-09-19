@@ -1,6 +1,9 @@
 # 地元LLM
 
-ローカルLLMの試行錯誤を複数の著者で共有する記事サイト。EleventyでMarkdownを静的HTMLに変換し、Cloudflare Pagesで公開します。データベース・有料API・独自ログインは不要です。
+ローカルLLMの試行錯誤を複数の著者で共有する記事サイト。EleventyでMarkdownを静的HTMLに変換し、Cloudflare PagesとGitHub Pagesで公開します。データベース・有料API・独自ログインは不要です。
+
+- Cloudflare Pages: https://zimotollm.pages.dev/
+- GitHub Pages: https://soralnv.github.io/zimotoLLM-site/
 
 ## 開発
 
@@ -30,7 +33,7 @@ npm test
 ## Cloudflare Pages
 
 - GitHub repository: `SORALNV/zimotoLLM-site`
-- Project name candidate: `zimotollm`
+- Project name: `zimotollm`
 - Production branch: `main`
 - Framework preset: None
 - Build command: `npm run build`
@@ -38,5 +41,11 @@ npm test
 - Environment variable: `NODE_VERSION=22`
 
 Git連携後はmainへのpushで自動公開されます。CloudflareのGitHub連携権限はこのリポジトリだけに絞ってください。
+
+## GitHub Pages
+
+`.github/workflows/pages.yml` がmainへのpush時にビルド・リンク検証・公開を実行します。GitHubのSettings → PagesはSourceをGitHub Actionsに設定します。
+
+GitHub Pagesのビルドだけ `SITE_PATH_PREFIX=/zimotoLLM-site/` を指定し、EleventyのHTML Baseプラグインで記事本文・ナビゲーション・CSS・画像のURLを変換します。Cloudflare側は未指定（`/`）のままです。CIでは両方のパスでリンクを検証します。GitHub PagesではCloudflare用の `_headers` 設定は適用されません。
 
 記事の事実確認と公開判断は執筆者・管理者が行ってください。サイトは記事の日時順に表示し、著者・タグからメタデータを生成します。初期記事はサイトのお知らせのみです。

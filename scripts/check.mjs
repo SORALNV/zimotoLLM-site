@@ -3,6 +3,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import postDefaults from '../src/posts/posts.11tydata.cjs';
 const root = path.resolve('dist');
+const prefix = process.env.SITE_PATH_PREFIX || '/';
 let checked = 0;
 async function walk(dir) {
   for (const e of await readdir(dir, { withFileTypes: true })) {
@@ -12,7 +13,9 @@ async function walk(dir) {
     const html = await readFile(file, 'utf8');
     if (!html.includes('<html lang="ja">') || !html.includes('<title>')) throw new Error(`Missing metadata: ${file}`);
     for (const [, url] of html.matchAll(/(?:href|src)="(\/(?!\/)[^"]*)"/g)) {
-      const clean = decodeURIComponent(url.split(/[?#]/)[0]);
+      const pathname = url.split(/[?#]/)[0];
+      assert.ok(pathname.startsWith(prefix), `Missing deployment prefix: ${file} -> ${url}`);
+      const clean = decodeURIComponent('/' + pathname.slice(prefix.length));
       const target = path.join(root, clean, clean.endsWith('/') ? 'index.html' : '');
       await access(target).catch(() => { throw new Error(`Broken local link: ${file} -> ${url}`); });
     }
