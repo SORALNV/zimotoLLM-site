@@ -1,0 +1,12 @@
+---
+layout: base.njk
+---
+<article class="post">
+  <a class="back-link" href="/">← 記事一覧</a>
+  <header class="post-header"><div class="topics">{% for topic in topics %}<a href="{{ topic | topicUrl }}">{{ topic }}</a>{% endfor %}</div>
+    <h1>{{ title }}</h1><p class="lede">{{ description }}</p>
+    <div class="byline"><span class="author-mark" aria-hidden="true">{{ author | authorName | first }}</span><span>{{ author | authorName }}</span><time datetime="{{ date | isoDate }}">{{ date | dateLabel }}</time></div>
+  </header>
+  <div class="prose">{{ content | safe }}</div>
+  <div class="post-bottom"><a href="{{ site.repo }}/edit/main/{{ page.inputPath | replace('./', '') }}">この記事の修正を提案する ↗</a><a href="/contribute/">自分の記事を書く →</a></div>
+</article>

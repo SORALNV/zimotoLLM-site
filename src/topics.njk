@@ -1,0 +1,12 @@
+---
+layout: base.njk
+pagination:
+  data: collections.topics
+  size: 1
+  alias: topic
+permalink: "/topics/{{ topic }}/"
+eleventyComputed:
+  title: "{{ topic }}の記事"
+---
+<section class="topic-page"><a class="back-link" href="/">← 記事一覧</a><p class="eyebrow">TOPIC</p><h1>{{ topic }}</h1>
+{% for article in collections.articles %}{% if topic in article.data.topics %}{% include "article-card.njk" %}{% endif %}{% endfor %}</section>
